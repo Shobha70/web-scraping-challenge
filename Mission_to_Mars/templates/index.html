@@ -18,10 +18,9 @@
     <div class="container-fluid news no-padding" id="scraped-data">
       <div class="row no-gutter">
         <div class="card-body">
-          <h5 class="card-title" id="font">Latest Mars News</h5>
-          <h6 class="card-subtitle mb-2 " id="font">{{ mars.news_title }}</h6>
+          <h5 class="card-title" id="font" style="font-size:200%"><b>Latest Mars News</b></h5>
+          <h6 class="card-subtitle mb-2 " id="font" style="font-size:125%"><b>{{ mars.news_title }}</b></h6>
           <p class="card-text">{{ mars.summary }}</p>
-          <a href={{ mars.news_url }} target="_blank">Check All News</a>
         </div>
       </div>
       </div>
@@ -29,26 +28,19 @@
         <div class="col-md-6" >
           <div class="card">
             <div class="card-body" id="img-table">
-              <h5 class="card-title">Featured Mars Image</h5>
+              <h5 class="card-title" style="font-size:200%"><b>Featured Mars Image</b></h5>
               <p class="card-text" id="dark-font">{{ mars.featured_image_title }}</p>
               <img class="card-img-bottom" src="{{ mars.featured_image }}" alt="Featured Mars Image">
-              <a href={{ mars.jpl_url }} target="_blank">Check All Images</a>
             </div>
           </div>
         </div>
         <div class="col-md-6" >
-          <div class="card">
-            <div class="card-body" id="img-table">
-              <div class="col-md-12">
-                <h5 class="card-title">Current Weather on Mars</h5>
-                <p class="card-text" id="dark-font">{{ mars.weather }}</p>
-              </div>
-            </div>
+          <div class="card border-dark mb-3" style="max-width: 35rem;">
             <div class="card-body" id="img-table">
               <div class="col-md-12">
                 <div>
-                  <h5 class="card-title">Mars Facts</h5>
-                  <p class="card-text"id="dark-font" >{{ mars.fact_table | safe }}</p>
+                  <h5 class="card-title" style="font-size:125%"><b>Mars Facts</b></h5>
+                  <p class="card-text"id="dark-font">{{ mars.fact_table | safe }}</p>
                 </div>
               </div>
             </div>

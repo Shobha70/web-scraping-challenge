@@ -1,9 +1,10 @@
-from splinter import browser
+from splinter import Browser
 from bs4 import BeautifulSoup
 from webdriver_manager.chrome import ChromeDriverManager
 import requests
 import pandas as pd
 import pymongo
+import time
 
 client = pymongo.MongoClient('mongodb://localhost:27017')
 db = client.mars_db
@@ -12,7 +13,7 @@ collection = db.mars
 def init_browser():
     
     executable_path = {'executable_path': ChromeDriverManager().install()}
-    browser = browser('chrome', **executable_path, headless=False)
+    return Browser('chrome', **executable_path, headless=False)
 
 def scrape():
 
@@ -22,6 +23,8 @@ def scrape():
     # NASA Mars News Webpage
     url = 'https://mars.nasa.gov/news/'
     browser.visit(url)   
+
+    time.sleep(1)
 
     html = browser.html
     soup = BeautifulSoup(html, 'html.parser')
@@ -59,6 +62,7 @@ def scrape():
                     'Value': second_column}, ignore_index=True)
 
     df.to_html('mars_table.html')
+    mars_fact_html=df.to_html(header=False, index=False)
 
     # Mars hemispheres title and image
     url = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
@@ -82,7 +86,7 @@ def scrape():
             image = soup.find('div', class_='downloads')
         
         
-            title_img_dict["img_url"] = image.a['href']
+            title_img_dict["image_url"] = image.a['href']
         
             hemisphere_image_urls.append(title_img_dict)
 
@@ -95,9 +99,9 @@ def scrape():
 		'news_title' : news_title,
 		'summary': news_p,
         'featured_image': featured_image_url,
-		'fact_table': '',
-		'hemisphere_image_urls': hemisphere_image_urls        
+		'fact_table': mars_fact_html,
+        'hemisphere_image_urls': hemisphere_image_urls	       
         }
 
-    collection.insert(mars_data)    
+    return mars_data   
 
